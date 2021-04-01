@@ -16,10 +16,12 @@ static WyrazenieZesp  TestLatwy[] =
     {{4,8}, Op_Dziel, {1,0}},
   };
 
-/*
- * Analogicznie zdefiniuj test "trudne"
- *
- */
+static WyrazenieZesp  TestTrudny[] =
+  { {{6432,163}, Op_Dodaj, {6431,6342}},
+    {{164,30}, Op_Odejmij, {50,31}},
+    {{43,450}, Op_Mnoz, {30,343}},
+    {{43,83}, Op_Dziel, {51,30}},
+  };
 
 
 
@@ -33,7 +35,7 @@ static WyrazenieZesp  TestLatwy[] =
  *    wskTabTestu  - wskaznik na tablice zawierajaca wyrazenia arytmetyczne
  *                   bedace przedmiotem testu,
  *    IloscElemTab - ilosc pytan w tablicy.
- *   
+ *
  * Warunki wstepne:
  *      - Parametr wskBazaTestu nie moze byc pustym wskaznikiem. Musi zawierac adres
  *        zmiennej reprezentujacej baze testu, ktora wczesniej zostal poprawnie
@@ -54,7 +56,7 @@ void UstawTest( BazaTestu *wskBazaTestu, WyrazenieZesp *wskTabTestu, unsigned in
 
 /*
  * Inicjalizuje test kojarzac zmienna dostepna poprzez wskaznik wskBazaTestu
- * z dana tablica wyrazen, ktora reprezentuje jeden z dwoch dopuszczalnych 
+ * z dana tablica wyrazen, ktora reprezentuje jeden z dwoch dopuszczalnych
  * testow.
  * Parametry:
  *    wskBazaTestu - wskaznik na zmienna reprezentujaca baze testu.
@@ -65,7 +67,7 @@ void UstawTest( BazaTestu *wskBazaTestu, WyrazenieZesp *wskTabTestu, unsigned in
  *        zmiennej reprezentujacej baze testu, ktora wczesniej zostal poprawnie
  *        zainicjalizowany poprzez wywolanie funkcji InicjalizujTest.
  *      - Parametr sNazwaTestu musi wskazywac na jedna z nazw tzn. "latwe" lub "trudne".
- *       
+ *
  * Zwraca:
  *       true - gdy operacja sie powiedzie i test zostanie poprawnie
  *              zainicjalizowany,
@@ -77,10 +79,10 @@ bool InicjalizujTest( BazaTestu  *wskBazaTestu, const char *sNazwaTestu )
     UstawTest(wskBazaTestu,TestLatwy,sizeof(TestLatwy)/sizeof(WyrazenieZesp));
     return true;
   }
-  /*
-   * Analogicznie zrob inicjalizacje dla testu trudne
-   */
-
+  if (!strcmp(sNazwaTestu,"trudny")) {
+    UstawTest(wskBazaTestu,TestTrudny,sizeof(TestTrudny)/sizeof(WyrazenieZesp));
+    return true;
+  }
   cerr << "Otwarcie testu '" << sNazwaTestu << "' nie powiodlo sie." << endl;
   return false;
 }
